@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -24,12 +25,13 @@ public class FicheroLenguaje {
      */
     public static void main(String[] args) {
         
-        String nombreFichero = args[0];
-        int numeroFichero = Integer.parseInt(args[1]);
-        
-        System.out.println("nombre del fichero" + nombreFichero);
-        System.out.println("numeros "+ numeroFichero  );
-        new Escribir(nombreFichero, numeroFichero).start();
+        String nombreFichero = "prueba2.txt";//args[0];
+        int numeroLetras = 10;//Integer.parseInt(args[1]);
+        int suma = numeroLetras;
+        for(int i= 0; i <= 10; i++){
+            new Escribir(nombreFichero, numeroLetras+suma).start();
+            suma+=suma;
+        }
         System.out.println("Ha terminado");
     }
 }
@@ -50,16 +52,17 @@ public class FicheroLenguaje {
             String letras = "abcdefghijklmnopqrstuvwxyz";
         
             if(fichero.exists()){
-                for(int i = 0; i <= numeroLetras; i++){
-                    try{    
-                        BufferedWriter bw = new BufferedWriter(new FileWriter(fichero, true));
-                        int rndint = rnd.nextInt(letras.length());
-                        char rndLetra = letras.charAt(rndint);
-                        bw.write(rndLetra);
-                        bw.close();   
-                    }catch(IOException ioe){
-                        ioe.printStackTrace();
+                try{   
+                    BufferedWriter bw = new BufferedWriter(new FileWriter(fichero, true));
+                    for(int i = 0; i <= numeroLetras; i++){             
+                            int rndint = rnd.nextInt(letras.length());
+                            char rndLetra = letras.charAt(rndint);
+                            bw.write(rndLetra);
                     }
+                    bw.newLine();
+                    bw.close();   
+                }catch(IOException ioe){
+                        ioe.printStackTrace();
                 }
             }
             else{
@@ -67,17 +70,18 @@ public class FicheroLenguaje {
                 try {
                     fichero.createNewFile();
                     if(fichero.exists()){
-                    for(int i = 0; i <= numeroLetras; i++){
-                        try{    
-                            BufferedWriter bw = new BufferedWriter(new FileWriter(fichero, true));
+                    try{   
+                    BufferedWriter bw = new BufferedWriter(new FileWriter(fichero, true));
+                    for(int i = 0; i <= numeroLetras; i++){             
                             int rndint = rnd.nextInt(letras.length());
                             char rndLetra = letras.charAt(rndint);
                             bw.write(rndLetra);
-                            bw.close();   
-                        }catch(IOException ioe){
-                            ioe.printStackTrace();
-                        }
                     }
+                    bw.newLine();
+                    bw.close();   
+                }catch(IOException ioe){
+                        ioe.printStackTrace();
+                }
                 
                         
                 }else{
@@ -89,6 +93,3 @@ public class FicheroLenguaje {
             } 
         }
     }
-
-    
-
