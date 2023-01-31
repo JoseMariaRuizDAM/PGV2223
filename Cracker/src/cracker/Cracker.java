@@ -28,7 +28,7 @@ public class Cracker {
         LinkedList<String> mensajes = new LinkedList<String>();
         String Host = "localhost"; 
         int Puerto = 21;
-        //for(int i= 0; i<2; i++){
+        
         try {
             Socket socket = new Socket(Host, Puerto);
             Leer leer = new Leer(socket, mensajes);
