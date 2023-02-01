@@ -77,6 +77,9 @@ public class Leer extends Thread{
 
             while(entrada.hasNext()){
                 texto = entrada.nextLine();
+                if(texto.equals(null)){
+                    mensajes.add("cierre");
+                }
                 //si texto null, enviar info a escribir y cerrar socket (conexion)
                 mensajes.add(texto);
             }

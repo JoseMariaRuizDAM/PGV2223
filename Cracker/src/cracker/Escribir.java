@@ -34,6 +34,7 @@ public class Escribir extends Thread {
         this.mensajes = mensajes;
     }
 
+    //Tengo que cerrar cada conexion con cada intento de contraseña por cada usuario
     public void run(){
         String respuesta = "";
         String user = "";

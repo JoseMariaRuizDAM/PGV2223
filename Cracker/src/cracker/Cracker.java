@@ -24,7 +24,7 @@ public class Cracker {
      * @param args the command line arguments
      */
     public static void main(String[] args)  throws FileNotFoundException, IOException{
-        
+        //Tengo que poner los usuarios aqui para que los lea aqui y haga el bucle desde aqui para la clase escribir
         LinkedList<String> mensajes = new LinkedList<String>();
         String Host = "localhost"; 
         int Puerto = 21;
