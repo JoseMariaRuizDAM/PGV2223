@@ -41,11 +41,11 @@ public class Escribir extends Thread {
         try{
         Scanner sc = new Scanner(new File("usuarios.txt"));
         Scanner sc2 = new Scanner(new File("claves.txt"));
+       while (!cierre) {
+            
         while(sc.hasNext()){
                 user = sc.nextLine();            
         
-        while (!cierre) {
-            
             try {
 
                 while (mensajes.size() > 0) {
@@ -61,32 +61,40 @@ public class Escribir extends Thread {
                     escribir.flush();
                     
                     System.out.println(mensajes);
-
-                    Thread.sleep(5);
+                    
+                    while (mensajes.isEmpty()) {
+                        Thread.sleep(10);
+                    }
+                    
                     System.out.println("despues sleep " + id + " " + mensajes);
                     
                     mensaje = mensajes.pop();
                     if (mensaje.contains("331")) {
-                        System.out.println("Hola22");
-                        System.out.println("usuario 2" + user);
+                        System.out.println("usuario 2 " + user);
                         escribir.println("pass " + pass);
                         escribir.flush();
 
                     }
 
                     while (mensajes.isEmpty()) {
-                        Thread.sleep(250);
+                        Thread.sleep(50);
                     }
 
                     mensaje = mensajes.pop();
                     System.out.println("prueba " + id + " "+ mensaje);
                     if (mensaje.contains("530")) {
-                        System.out.println("entro 530 " + id );
-                        cierre = true;
-                        socket.close();
+                        if(mensaje.contains("failed"))
+                        System.out.println("entro 530 failed " + id );
+                        /*else{
+                            System.out.println("El password se ha acertado: Has entrado");
+                            cierre = true;
+                            socket.close();
+                        }*/
+                        
                     } else if (mensaje.contains("230")) {
-                        //br.write("usuario: " + usuario + " contrasenia: " + contrasenia + "\n");
-                        //bw.flush();
+                        System.out.println("El password se ha acertado: Has entrado");
+                            cierre = true;
+                            socket.close();
                     }
                 }
             } catch (IOException ex) {

@@ -33,7 +33,7 @@ public class Cracker {
             Socket socket = new Socket(Host, Puerto);
             Leer leer = new Leer(socket, mensajes);
             leer.start();
-            sleep(10);
+            sleep(30);
             Escribir escribir = new Escribir(socket, mensajes);
             escribir.start();
         }catch(Exception e){
