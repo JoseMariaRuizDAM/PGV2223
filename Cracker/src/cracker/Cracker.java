@@ -28,16 +28,29 @@ public class Cracker {
         LinkedList<String> mensajes = new LinkedList<String>();
         String Host = "localhost"; 
         int Puerto = 21;
-        
+        String user = "";
+        String pass = "";
         try {
-            Socket socket = new Socket(Host, Puerto);
-            Leer leer = new Leer(socket, mensajes);
-            leer.start();
-            sleep(30);
-            Escribir escribir = new Escribir(socket, mensajes);
-            escribir.start();
-        }catch(Exception e){
+            Scanner sc = new Scanner(new File("usuarios.txt"));
+            Scanner scContra = new Scanner(new File("claves.txt"));
             
+            
+            while(sc.hasNext()){
+                while (scContra.hasNext()) {
+                    pass = scContra.nextLine();
+                
+                user = sc.nextLine(); 
+                Socket socket = new Socket(Host, Puerto);
+                Leer leer = new Leer(socket, mensajes);
+                leer.start();
+                sleep(30);
+
+                Escribir escribir = new Escribir(socket, mensajes, user, pass);
+                escribir.start();
+            }
+                }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
         }
        // }
         /*

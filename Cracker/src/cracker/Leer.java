@@ -38,43 +38,11 @@ public class Leer extends Thread{
     }
     
     public void run () {
-        /*try {
-  
-           
-            BufferedReader mensaje = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            
-            LinkedList<String> mensajes2 = mensaje.lines();
-            mensajes2.forEach(m->{
-            System.out.println(m);
-                mensajes.add(m);
-            });
-            
-            for (String object : mensajes2) {
-                
-            }
-            //Probando a escribir en el leer
-            System.out.println("hoa");
-            PrintWriter escribir = new PrintWriter(socket.getOutputStream(), true);
-             escribir.print("USER dam2\n");
-             //escribir.flush();
-                escribir.print("PASS PR0GR4M");
-                System.out.println("hola22");
-                //fin
-            for (Iterator<String> iterator = mensajes2.iterator(); iterator.hasNext();) {
-                String next = iterator.next();
-                System.out.println(next);
-                mensajes.add(next);
-            }
-                
-        } catch (IOException ex) {
-            Logger.getLogger(Leer.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        
         
         String texto = "";
         try{
             Scanner entrada = new Scanner(socket.getInputStream());
-
+            System.out.println("leer");
             while(entrada.hasNext()){
                 texto = entrada.nextLine();
                 if(texto.equals(null)){

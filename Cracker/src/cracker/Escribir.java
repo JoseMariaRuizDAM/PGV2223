@@ -21,6 +21,8 @@ public class Escribir extends Thread {
 
     Socket socket;
     LinkedList<String> mensajes;
+    String usuario;
+    String pass;
     boolean cierre = false;
     String mensaje = "";
     
@@ -29,36 +31,29 @@ public class Escribir extends Thread {
 
     }
 
-    Escribir(Socket socket, LinkedList<String> mensajes) {
+    Escribir(Socket socket, LinkedList<String> mensajes, String usuario, String pass) {
         this.socket = socket;
         this.mensajes = mensajes;
+        this.usuario = usuario;
+        this.pass = pass;
     }
 
     //Tengo que cerrar cada conexion con cada intento de contraseña por cada usuario
     public void run(){
         String respuesta = "";
-        String user = "";
-        String pass = "";
         try{
-        Scanner sc = new Scanner(new File("usuarios.txt"));
-        Scanner sc2 = new Scanner(new File("claves.txt"));
-       while (!cierre) {
-            
-        while(sc.hasNext()){
-                user = sc.nextLine();            
-        
+      
             try {
 
                 while (mensajes.size() > 0) {
                     respuesta = mensajes.pop();
                     System.out.println(respuesta);
                 }
-
                 PrintWriter escribir = new PrintWriter(socket.getOutputStream());
 
                 if (mensajes.size() <= 0) {
-                    escribir.println("user " + user);
-                    System.out.println("usuario " + user);
+                    escribir.println("user " + usuario);
+                    System.out.println("usuario " + usuario);
                     escribir.flush();
                     
                     System.out.println(mensajes);
@@ -71,7 +66,7 @@ public class Escribir extends Thread {
                     
                     mensaje = mensajes.pop();
                     if (mensaje.contains("331")) {
-                        System.out.println("usuario 2 " + user);
+                        System.out.println("usuario 2 " + usuario);
                         escribir.println("pass " + pass);
                         escribir.flush();
 
@@ -84,13 +79,14 @@ public class Escribir extends Thread {
                     mensaje = mensajes.pop();
                     System.out.println("prueba " + id + " "+ mensaje);
                     if (mensaje.contains("530")) {
-                        if(mensaje.contains("failed"))
-                        System.out.println("entro 530 failed " + id );
-                        /*else{
+                        if(mensaje.contains("failed")){
+                            System.out.println("entro 530 failed " + id );
+                            socket.close();
+                        }else{
                             System.out.println("El password se ha acertado: Has entrado");
                             cierre = true;
                             socket.close();
-                        }*/
+                        }
                         
                     } else if (mensaje.contains("230")) {
                         System.out.println("El password se ha acertado: Has entrado");
@@ -104,8 +100,6 @@ public class Escribir extends Thread {
                 Logger.getLogger(Escribir.class.getName()).log(Level.SEVERE, null, ex);
             }
         id++;
-        }
-        }
         }catch(Exception e){
                 e.getStackTrace();
         }
