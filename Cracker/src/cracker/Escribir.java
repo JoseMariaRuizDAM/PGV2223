@@ -66,7 +66,7 @@ public class Escribir extends Thread {
                     
                     mensaje = mensajes.pop();
                     if (mensaje.contains("331")) {
-                        System.out.println("usuario 2 " + usuario);
+                        System.out.println("usuario 2 " + usuario + " y pass + " + pass);
                         escribir.println("pass " + pass);
                         escribir.flush();
 

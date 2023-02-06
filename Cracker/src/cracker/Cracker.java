@@ -34,12 +34,15 @@ public class Cracker {
             Scanner sc = new Scanner(new File("usuarios.txt"));
             Scanner scContra = new Scanner(new File("claves.txt"));
             
-            
-            while(sc.hasNext()){
-                while (scContra.hasNext()) {
+             while (scContra.hasNext()) {
                     pass = scContra.nextLine();
-                
+            while(sc.hasNext()){
                 user = sc.nextLine(); 
+                    System.out.println("user main " + user);
+               
+                
+                /*user = sc.nextLine(); 
+                    System.out.println("user main " + user);*/
                 Socket socket = new Socket(Host, Puerto);
                 Leer leer = new Leer(socket, mensajes);
                 leer.start();
@@ -47,8 +50,9 @@ public class Cracker {
 
                 Escribir escribir = new Escribir(socket, mensajes, user, pass);
                 escribir.start();
-            }
                 }
+            }
+            System.out.println("termina main total");
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
