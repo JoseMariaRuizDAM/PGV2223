@@ -42,7 +42,6 @@ public class Leer extends Thread{
         String texto = "";
         try{
             Scanner entrada = new Scanner(socket.getInputStream());
-            System.out.println("leer");
             while(entrada.hasNext()){
                 texto = entrada.nextLine();
                 if(texto.equals(null)){

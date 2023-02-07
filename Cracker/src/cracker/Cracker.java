@@ -32,46 +32,32 @@ public class Cracker {
         String pass = "";
         try {
             Scanner sc = new Scanner(new File("usuarios.txt"));
-            Scanner scContra = new Scanner(new File("claves.txt"));
+            //Scanner scContra = new Scanner(new File("claves.txt"));
             
-             while (scContra.hasNext()) {
-                    pass = scContra.nextLine();
+             
             while(sc.hasNext()){
                 user = sc.nextLine(); 
                     System.out.println("user main " + user);
-               
-                
+               /*Scanner scContra = new Scanner(new File("claves.txt"));
+                while (scContra.hasNext()) {
+                    pass = scContra.nextLine();
+                    System.out.println("pass main " + pass);
                 /*user = sc.nextLine(); 
                     System.out.println("user main " + user);*/
-                Socket socket = new Socket(Host, Puerto);
+                /*
                 Leer leer = new Leer(socket, mensajes);
                 leer.start();
-                sleep(30);
+                sleep(30);*/
 
-                Escribir escribir = new Escribir(socket, mensajes, user, pass);
+                Escribir escribir = new Escribir(user);
                 escribir.start();
                 }
-            }
+            
             System.out.println("termina main total");
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
-       // }
-        /*
-        Scanner sc = new Scanner(new File("usuarios.txt"));
-        Scanner sc2 = new Scanner(new File("claves.txt"));
-        String us;
-        List<String> pass = new ArrayList<String>();
-        
-        while(sc2.hasNext()){
-            pass.add(sc2.nextLine());
-        }
-         while(sc.hasNextLine()) {
-             us = sc.nextLine();
-             Leer usuario = new Leer(us, pass);
-             usuario.start();
-         }
-         sc.close();9*/
-    }
-    
+       
+}
+
 }
