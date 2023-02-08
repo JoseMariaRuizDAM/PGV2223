@@ -22,32 +22,31 @@ public class Cracker {
     public static void main(String[] args)  throws FileNotFoundException, IOException{
         //Tengo que poner los usuarios aqui para que los lea aqui y haga el bucle desde aqui para la clase escribir
         LinkedList<String> mensajes = new LinkedList<String>();
-        String Host = "localhost"; 
-        int Puerto = 21;
+        String Host = "localhost"; //args[0]; 
+        int Puerto = 21; //Integer.ParseInt[1];
         String user = "";
         String pass = "";
         try {
-            Scanner sc = new Scanner(new File("usuarios.txt"));
-            Scanner scContra = new Scanner(new File("claves.txt"));
-            
-             
+            Scanner sc = new Scanner(new File("usuarios.txt")); // /tmp/usuarios.txt
+            //Scanner scContra = new Scanner(new File("claves.txt")); // /tmp/claves.txt
+
             while(sc.hasNext()){
                 user = sc.nextLine(); 
                     System.out.println("user main " + user);
-               
+               /*
                 while (scContra.hasNext()) {
                     pass = scContra.nextLine();
                 /*user = sc.nextLine(); 
                     System.out.println("user main " + user);*/
-                Socket socket = new Socket(Host, Puerto);
+                /*Socket socket = new Socket(Host, Puerto);
                 Leer leer = new Leer(socket, mensajes);
                 leer.start();
-                sleep(30);
+                sleep(30);*/
 
-                Escribir escribir = new Escribir(socket, mensajes, user, pass);
+                Escribir escribir = new Escribir(Host, Puerto, mensajes, user);
                 escribir.start();
                 }
-            }
+        //}
             System.out.println("termina main total");
         }catch(Exception e){
             System.out.println(e.getMessage());
