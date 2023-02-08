@@ -1,11 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cracker;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -21,44 +16,29 @@ import java.util.logging.Logger;
 public class Escribir extends Thread {
 
     Socket socket;
-    LinkedList<String> mensajes=new LinkedList<>();
+    LinkedList<String> mensajes;
     String usuario;
     String pass;
     boolean cierre = false;
     String mensaje = "";
-    String Host = "localhost"; 
-    int Puerto = 21;
+    
     int id = 0;
-    
-    
     Escribir() {
 
     }
-    
-    Escribir(String usuario){
-        this.usuario = usuario;
-    }
-    Escribir(Socket socket, LinkedList<String> mensajes, String usuario) {
+
+    Escribir(Socket socket, LinkedList<String> mensajes, String usuario, String pass) {
         this.socket = socket;
         this.mensajes = mensajes;
         this.usuario = usuario;
-        //this.pass = pass;
+        this.pass = pass;
     }
 
     //Tengo que cerrar cada conexion con cada intento de contraseña por cada usuario
     public void run(){
-        Socket socket;
-        try {
-            socket = new Socket(Host, Puerto);
-            Leer leer = new Leer(socket, mensajes);
-                leer.start();
-                sleep(100);
         String respuesta = "";
         try{
-            Scanner scContra = new Scanner(new File("claves.txt"));
-                while (scContra.hasNext()) {
-                    pass = scContra.nextLine();
-                
+      
             try {
 
                 while (mensajes.size() > 0) {
@@ -95,14 +75,20 @@ public class Escribir extends Thread {
                     mensaje = mensajes.pop();
                     System.out.println("prueba " + id + " "+ mensaje);
                     if (mensaje.contains("530")) {
+                        if(mensaje.contains("failed")){
                             System.out.println("entro 530 failed " + id );
                             socket.close();
-                        
+                        }else{
+                            System.out.println("El password se ha acertado: Has entrado");
+                            cierre = true;
+                            socket.close();
+                        }
                         
                     } else if (mensaje.contains("230")) {
                         System.out.println("El password se ha acertado: Has entrado");
                             cierre = true;
                             socket.close();
+                            System.exit(0);
                     }
                 }
             } catch (IOException ex) {
@@ -111,15 +97,9 @@ public class Escribir extends Thread {
                 Logger.getLogger(Escribir.class.getName()).log(Level.SEVERE, null, ex);
             }
         id++;
-        }
-        }catch(FileNotFoundException e){
+        }catch(Exception e){
                 e.getStackTrace();
-        } 
-        } catch (IOException ex) {
-            Logger.getLogger(Escribir.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Escribir.class.getName()).log(Level.SEVERE, null, ex);
         }
-}
-    
+
+    }
 }
