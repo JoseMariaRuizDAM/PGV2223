@@ -1,8 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package crackeador;
+package crackpass;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static java.lang.Thread.sleep;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,8 +13,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -57,8 +58,10 @@ public class HebraUsuario extends Thread {
             he.start();
 
             while (scPasswords.hasNext()) {
+                
                 //Si el socket esta cerrado crea una nueva conexion al socket
                 if (socket.isClosed()) {
+                    
                     socket = new Socket(dirIp, puerto);
                     pass = scPasswords.nextLine();
                     hl = new HebraLectora(socket, mensajes);
@@ -68,6 +71,7 @@ public class HebraUsuario extends Thread {
                     sleep(20);
                     he.start();
                 }
+                sleep(1000);
             }
 
         } catch (FileNotFoundException ex) {
@@ -82,7 +86,7 @@ public class HebraUsuario extends Thread {
            //Para que espere el programa a que terminen todas las hebras
             hl.join();
             he.join();
-        
+            
         } catch (Exception e) {
 
         }

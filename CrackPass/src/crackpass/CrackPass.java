@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
-package crackeador;
+package crackpass;
 
+import crackpass.HebraUsuario;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
@@ -14,12 +11,12 @@ import java.util.Scanner;
  *
  * @author dam2
  */
-public class Crackeador {
+public class CrackPass {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, InterruptedException {
         
         String ip = (args.length == 0) ? "localhost" : args[0];
         int puerto = (args.length <= 1) ? 21 : Integer.parseInt(args[1]);
@@ -33,25 +30,33 @@ public class Crackeador {
         Scanner scUsuarios;
         //scUsuarios = new Scanner(new File("/tmp/usuarios.txt"));
         scUsuarios = new Scanner(new File("usuarios.txt"));
+        
         while(scUsuarios.hasNext()){
-            usuario = scUsuarios.nextLine();
             
             while(listaUsuarios.size() < numHebras && scUsuarios.hasNext()){
-                hu = new HebraUsuario(ip, puerto, usuario);
-                listaUsuarios.add(hu);
                 usuario = scUsuarios.nextLine();
+                hu = new HebraUsuario(ip, puerto, usuario);
+                hu.start();
+                listaUsuarios.add(hu);
             }
-            
             Iterator<HebraUsuario> listaIterator = listaUsuarios.iterator();  
             
             while(listaIterator.hasNext()){
                 hu = listaIterator.next();
                 if(hu.isAlive()){
-                    System.out.println("estoy viva" + hu.getUsuario());
+                    //System.out.println("estoy viva" + hu.getUsuario());
                 }
             }
             
         }
+        
+        for (HebraUsuario listaUsuario : listaUsuarios) {
+            listaUsuario.join();
+        }
+        
+         Long tiempoFinal = System.currentTimeMillis();
+         Long tiempoTotal = (tiempoFinal - tiempoIniciar) / 1000;
+         System.out.println("Tiempo total " + tiempoTotal + " seg");
     }
     
 }

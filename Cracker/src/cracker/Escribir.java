@@ -52,10 +52,10 @@ public class Escribir extends Thread {
             Scanner scContra = new Scanner(new File("claves.txt"));
             while (scContra.hasNext()) {
                 pass = scContra.nextLine();
-
+                   System.out.println("contraseña primera " + pass +" " + usuario );
                 while (mensajes.size() > 0) {
                     respuesta = mensajes.pop();
-                    System.out.println(respuesta);
+                    System.out.println(respuesta + " " + usuario);
                 }
                 PrintWriter escribir = new PrintWriter(socket.getOutputStream());
                 
@@ -71,7 +71,7 @@ public class Escribir extends Thread {
 
                     mensaje = mensajes.pop();
                     if (mensaje.contains("331")) {
-                       
+                        //System.out.println("entro en 331 " + usuario + " " + pass);
                         escribir.println("pass " + pass);
                         escribir.flush();
 
